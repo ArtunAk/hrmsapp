@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import kodlamaio.hrms.business.abstracts.JobPostService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
@@ -14,12 +16,13 @@ import kodlamaio.hrms.dataAccess.abstracts.JopPostDao;
 import kodlamaio.hrms.entities.concretes.JobPost;
 import kodlamaio.hrms.entities.dtos.JobPostingDto;
 
+@Service
 public class JopPostManager implements JobPostService {
 	
 	private JopPostDao jobPostingDao;
 	private ModelMapper modelMapper;
 	
-	
+	@Autowired
 	public JopPostManager(JopPostDao jobPostingDao, ModelMapper modelMapper) {
 		super();
 		this.jobPostingDao = jobPostingDao;

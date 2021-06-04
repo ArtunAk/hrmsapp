@@ -37,8 +37,8 @@ public class CandidateController {
 	}
 	
 	@PostMapping("/add")
-	public Result newCandidate(@Valid @RequestBody Candidate newCandidate){
-		return candidatesService.add(newCandidate);
+	public Result newCandidate(@Valid @RequestBody Candidate candidate){
+		return candidatesService.add(candidate);
 	}
 	
 

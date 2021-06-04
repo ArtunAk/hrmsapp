@@ -16,23 +16,24 @@ import kodlamaio.hrms.entities.concretes.Candidate;
 public class CandidateManager implements CandidateService {
 	
 	private FieldService<Candidate> controllerService;
-	
-	
+
 	@Autowired
 	public CandidateManager(FieldService<Candidate> controllerService) {
 		super();
 		this.controllerService = controllerService;
-		
 	}
 
 	@Override
 	public DataResult<List<Candidate>> getAll() {
 		return this.controllerService.getAll();
 	}
-		
+
 	@Override
-	public Result add(Candidate newCandidate) {
-		return this.controllerService.verifyData(newCandidate);	
+	public Result add(Candidate candidate) {
+		return this.controllerService.verifyData(candidate);
 	}
+	
+	
+
 
 }

@@ -30,7 +30,7 @@ public class ConfirmEmployer {
 	private int Id;
 	
 	@OneToOne(targetEntity = Employer.class)
-	@JoinColumn(name="employer_id", referencedColumnName="user_id")
+	@JoinColumn(name="employer_id", referencedColumnName="id")
 	private Employer employer;
 	
 	@Column(name = "confirmed_staff_user")

@@ -1,4 +1,4 @@
-package kodlamaio.hrms.core.config;
+package kodlamaio.hrms.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

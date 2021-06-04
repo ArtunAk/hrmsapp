@@ -2,24 +2,28 @@ package kodlamaio.hrms.entities.concretes;
 
 
 import javax.persistence.Column;
+
 import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
+
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+
 @EqualsAndHashCode(callSuper = false)
-@Data
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@PrimaryKeyJoinColumn(name = "id")
+@Data
+@Entity
 @Table(name = "candidates")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Candidate extends User {
 	
 

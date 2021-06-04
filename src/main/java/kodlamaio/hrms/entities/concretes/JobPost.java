@@ -58,7 +58,7 @@ public class JobPost {
 	private boolean isActive=false;
 	
 	@ManyToOne(targetEntity = Employer.class ,fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "employer_id", referencedColumnName =  "user_id" ,nullable = false)
+	@JoinColumn(name = "employer_id", referencedColumnName =  "id" ,nullable = false)
 	private Employer employer;
 
 }

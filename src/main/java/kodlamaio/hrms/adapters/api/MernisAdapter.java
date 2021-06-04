@@ -1,18 +1,20 @@
-package kodlamaio.hrms.core.concretes;
+package kodlamaio.hrms.adapters.api;
 
 import java.rmi.RemoteException;
 
-import org.springframework.stereotype.Component;
 
-import kodlamaio.hrms.core.abstracts.MernisCheckService;
+
+import org.springframework.stereotype.Service;
+
+import kodlamaio.hrms.adapters.service.VerifyApiService;
 import kodlamaio.hrms.entities.concretes.Candidate;
 import tr.gov.nvi.tckimlik.WS.KPSPublicSoapProxy;
 
-@Component
-public class MernisCheckAdapter implements MernisCheckService{
+@Service
+public class MernisAdapter implements VerifyApiService<Candidate>{
 
 	@Override
-	public boolean checkIfRealPerson(Candidate candidate) {
+	public boolean ApiControl(Candidate candidate) {
 		KPSPublicSoapProxy kpsPublic;
 		try {
 			kpsPublic = new KPSPublicSoapProxy();
