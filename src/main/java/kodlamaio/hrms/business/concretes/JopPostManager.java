@@ -1,50 +1,40 @@
 package kodlamaio.hrms.business.concretes;
 
-import java.util.ArrayList;
+
+
 import java.util.List;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kodlamaio.hrms.business.abstracts.JobPostService;
+import kodlamaio.hrms.core.utilities.dtoConverter.DtoConverterService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.core.utilities.results.SuccessDataResult;
 import kodlamaio.hrms.core.utilities.results.SuccessResult;
-import kodlamaio.hrms.dataAccess.abstracts.JopPostDao;
+import kodlamaio.hrms.dataAccess.abstracts.JobPostDao;
 import kodlamaio.hrms.entities.concretes.JobPost;
+import kodlamaio.hrms.entities.dtos.JobPostingAddDto;
 import kodlamaio.hrms.entities.dtos.JobPostingDto;
 
 @Service
 public class JopPostManager implements JobPostService {
 	
-	private JopPostDao jobPostingDao;
-	private ModelMapper modelMapper;
+	private JobPostDao jobPostingDao;
+	private DtoConverterService dtoConverterService;
+		
 	
 	@Autowired
-	public JopPostManager(JopPostDao jobPostingDao, ModelMapper modelMapper) {
+	public JopPostManager(JobPostDao jobPostingDao, DtoConverterService dtoConverterService) {
 		super();
 		this.jobPostingDao = jobPostingDao;
-		this.modelMapper = modelMapper;
-	}
-
-	private List<JobPostingDto> dtoConverter(List<JobPost> jobPosting){
-		List<JobPostingDto> jPDto = new ArrayList<JobPostingDto>();
-		jobPosting.forEach(x -> {
-			JobPostingDto dto = this.modelMapper.map(x, JobPostingDto.class);
-			dto.setEmployerCompanyName(x.getEmployer().getCompanyName());
-			jPDto.add(dto);
-		});
-		
-		return jPDto;
-		
-		
+		this.dtoConverterService = dtoConverterService;
 	}
 	
 	@Override
-	public Result add(JobPost jobPosting) {
-		this.jobPostingDao.save(jobPosting);
+	public Result add(JobPostingAddDto jobPostingAddDto) {
+		this.jobPostingDao.save((JobPost) dtoConverterService.dtoClassConverter(jobPostingAddDto, JobPost.class));
 		return new SuccessResult("İş İlanı Eklendi");
 	}
 	@Override
@@ -54,18 +44,21 @@ public class JopPostManager implements JobPostService {
 	}
 	@Override
 	public DataResult<List<JobPostingDto>> findByIsActive() {
-		return new SuccessDataResult<List<JobPostingDto>>
-		(this.dtoConverter(this.jobPostingDao.findByIsActive(true)),"Data Listelendi");
+		return new SuccessDataResult<List<JobPostingDto>>(dtoConverterService.dtoConverter
+				(jobPostingDao.findByIsActive(true), JobPostingDto.class),"Aktif İş İlanları Listelendi");
+		
 	}
 	@Override
 	public DataResult<List<JobPostingDto>> findByIsActiveOrderByClosedDate() {
 		return new SuccessDataResult<List<JobPostingDto>>
-		(this.dtoConverter(this.jobPostingDao.findByIsActiveOrderByClosedDate(true)),"Data Listelendi");
+		(this.dtoConverterService.dtoConverter(this.jobPostingDao.findByIsActiveOrderByClosedDate(true), JobPostingDto.class),"Data Listelendi");
 	}
 	@Override
 	public DataResult<List<JobPostingDto>> findByIsActiveAndEmployer_CompanyName(String companyName) {
 		return new SuccessDataResult<List<JobPostingDto>>
-		(this.dtoConverter(this.jobPostingDao.findByIsActiveAndEmployer_CompanyName(true, companyName)),"Data Listelendi");
+		(this.dtoConverterService.dtoConverter(this.jobPostingDao.findByIsActiveAndEmployer_CompanyName(true, companyName), JobPostingDto.class),"Data Listelendi");
 	}
+	
+	
 
 }
